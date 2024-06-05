@@ -407,6 +407,7 @@ def generateVehicles():
             direction_number = 3
         Vehicle(lane_number, vehicleTypes[vehicle_type], direction_number, directionNumbers[direction_number], will_turn)
         time.sleep(1)
+    
 
 class Main:
     global allowedVehicleTypesList
@@ -446,10 +447,22 @@ class Main:
     thread2.daemon = True
     thread2.start()
 
+   
+
+
+    quit_font = pygame.font.Font("digital.ttf", 40)
+    quit_surf = quit_font.render('Quit', True, 'white')
+    quit_button = pygame.Rect(900, 10, 90, 50)
+
     while True:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
+                pygame.quit()
                 sys.exit()
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if quit_button.collidepoint(event.pos):
+                    pygame.quit()
+                    sys.exit()
 
         screen.blit(background,(0,0))   # display background in simulation
         for i in range(0,noOfSignals):  # display signal and set timer according to current status: green, yello, or red
@@ -477,6 +490,13 @@ class Main:
         for vehicle in simulation:  
             screen.blit(vehicle.image, [vehicle.x, vehicle.y])
             vehicle.move()
+        d, c = pygame.mouse.get_pos()
+        if quit_button.collidepoint(d, c):
+            pygame.draw.rect(screen, (110, 90, 90), quit_button)
+        else:
+            pygame.draw.rect(screen, (250, 90, 90), quit_button)
+        screen.blit(quit_surf, (quit_button.x + 14, quit_button.y + 8))
+
         pygame.display.update()
 
 
