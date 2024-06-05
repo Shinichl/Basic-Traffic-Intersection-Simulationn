@@ -16,10 +16,10 @@ nextGreen = (currentGreen+1)%noOfSignals    # Indicates which signal will turn g
 currentYellow = 0   # Indicates whether yellow signal is on or off 
 
 speeds = {'car':2.25, 'bus':1.8, 'truck':1.8, 'bike':2.5}  # average speeds of vehicles
-
-# Coordinates of vehicles' start positions
 #x = {'right': [1, 1, 1], 'down': [510, 510, 540], 'left': [1000, 1000, 1000], 'up': [800, 430, 469]}
 #y = {'right': [495, 430, 465], 'down': [180, 100, 190], 'left': [516, 516, 542], 'up': [914, 990, 900]}
+# Coordinates of vehicles' start positions
+
 x = {'right': [1, 1, 1], 'down': [800, 430, 469], 'left': [1000, 1000, 1000], 'up': [510, 510, 540]}
 y = {'right': [516, 516, 542], 'down': [180, 100, 190], 'left': [495, 430, 465], 'up': [914, 990, 900]}
 vehicles = {'right': {0: [], 1: [], 2: [], 'crossed': 0}, 'down': {0: [], 1: [], 2: [], 'crossed': 0}, 'left': {0: [], 1: [], 2: [], 'crossed': 0}, 'up': {0: [], 1: [], 2: [], 'crossed': 0}}
@@ -27,8 +27,8 @@ vehicleTypes = {0: 'car', 1: 'bus', 2: 'truck', 3: 'bike'}
 directionNumbers = {0: 'right', 1: 'down', 2: 'left', 3: 'up'}
 
 # Coordinates of signal image, timer, and vehicle count
-signalCoods = [(360, 260), (590, 260), (585, 602), (365, 602)]
-signalTimerCoods = [(419, 444), (520, 420), (532, 522), (453, 555)]
+signalCoods = [(365, 602), (360, 260),  (590, 260), (585, 602)]
+signalTimerCoods = [(425, 530),(445, 420), (550, 445), (530, 557)]
 
 # Coordinates of stop lines
 stopLines = {'right': 390, 'down': 400, 'left': 605, 'up': 600}
@@ -44,11 +44,11 @@ allowedVehicleTypesList = []
 vehiclesTurned = {'right': {1:[], 2:[]}, 'down': {1:[], 2:[]}, 'left': {1:[], 2:[]}, 'up': {1:[], 2:[]}}
 vehiclesNotTurned = {'right': {1:[], 2:[]}, 'down': {1:[], 2:[]}, 'left': {1:[], 2:[]}, 'up': {1:[], 2:[]}}
 rotationAngle = 3
-mid = {'right': {'x':705, 'y':445}, 'down': {'x':695, 'y':450}, 'left': {'x':695, 'y':425}, 'up': {'x':695, 'y':400}}
+mid = {'right': {'x':435, 'y':545}, 'down': {'x':605, 'y':430}, 'left': {'x':695, 'y':450}, 'up': {'x':610, 'y':540}}
 # set random or default green signal time here 
 randomGreenSignalTimer = True
 # set random green signal time range here 
-randomGreenSignalTimerRange = [10,20]
+randomGreenSignalTimerRange = [15,20]
 
 pygame.init()
 simulation = pygame.sprite.Group()
@@ -389,7 +389,7 @@ def generateVehicles():
         if(lane_number == 1):
             temp = random.randint(0,99)
             if(temp<40):
-                will_turn = 1
+                will_turn = 0 # left turn
         elif(lane_number == 2):
             temp = random.randint(0,99)
             if(temp<40):
@@ -441,7 +441,7 @@ class Main:
     redSignal = pygame.image.load('images/signals/red.png')
     yellowSignal = pygame.image.load('images/signals/yellow.png')
     greenSignal = pygame.image.load('images/signals/green.png')
-    font = pygame.font.Font(None, 30)
+    font = pygame.font.Font("digital.ttf", 30)
     thread2 = threading.Thread(name="generateVehicles",target=generateVehicles, args=())    # Generating vehicles
     thread2.daemon = True
     thread2.start()
@@ -478,6 +478,11 @@ class Main:
             screen.blit(vehicle.image, [vehicle.x, vehicle.y])
             vehicle.move()
         pygame.display.update()
+
+
+         
+       
+
 
 
 Main()
